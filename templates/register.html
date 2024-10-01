@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="utf-8">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+<div class="bg-img">
+    <div class="content">
+        <header>Registration</header>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="field">
+                <span class="fa fa-user"></span>
+                <input type="text" name="first_name" placeholder="First Name" required>
+            </div>
+            <div class="field">
+                <span class="fa fa-user"></span>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+            </div>
+            <div class="field space">
+                <span class="fa fa-envelope"></span>
+                <input type="email" name="email" placeholder="Enter Email" required>
+            </div>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <span class="show">SHOW</span>
+            </div>
+            <div class="field">
+                <input type="submit" value="REGISTER">
+            </div>
+            {% if form.errors %}
+                <ul class="error-list">
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+        <div class="signup">
+            Already have an account?
+            <a href="{% url 'login' %}">Login Now</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const passwordFields = document.querySelectorAll('input[type="password"]');
+    const showBtn = document.querySelectorAll('.show');
+
+    showBtn.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            if (passwordFields[index].type === "password") {
+                passwordFields[index].type = "text";
+                btn.textContent = "HIDE";
+                btn.style.color = "#3498db";
+            } else {
+                passwordFields[index].type = "password";
+                btn.textContent = "SHOW";
+                btn.style.color = "#222";
+            }
+        });
+    });
+</script>
+</body>
+</html>
